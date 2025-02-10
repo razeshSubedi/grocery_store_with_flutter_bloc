@@ -1,4 +1,5 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_bloc_tutorial/data/cart_items.dart';
 import 'package:flutter_bloc_tutorial/data/grocery_data.dart';
 import 'package:flutter_bloc_tutorial/data/wishlist_items.dart';
 import 'package:flutter_bloc_tutorial/features/home/models/home_products_data_model.dart';
@@ -12,7 +13,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
     on<HomeInitialFetchEvent>(
       (event, emit) async {
         emit(HomeLoadingState());
-        await Future.delayed(Duration(seconds: 3));
+        await Future.delayed(Duration(seconds: 1));
         emit(
           HomeLoadingSucessState(
             products: GroceryData.groceryProducts
@@ -43,7 +44,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
     },);
 
     on<CartButtonClicked>((event, emit) {
-     wishlistItems.add(event.clickedCartItem);
+     cartItems.add(event.clickedCartItem);
      emit(ProductAddedToCartState(message: "Product is added to the cart."));
     },);
   }

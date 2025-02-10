@@ -12,7 +12,21 @@ class CartBloc extends Bloc<CartEvent, CartState> {
       (event, emit) async {
         emit(CartLoadingState());
         await Future.delayed(Duration(seconds: 1));
+        if (cartItems.isEmpty) {
+          emit(CartEmptyState());
+        } else {
+          emit(CartSucessState(cartItems: cartItems));
+        }
+      },
+    );
+    on<CartRemoveItemEvent>(
+      (event, emit) {
+        cartItems.remove(event.cartItemToBeDeleted);
+        emit(CartItemRemovedState());
         emit(CartSucessState(cartItems: cartItems));
+        if (cartItems.isEmpty) {
+          emit(CartEmptyState());
+        }
       },
     );
   }
