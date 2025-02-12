@@ -15,6 +15,16 @@ final class CartSucessState extends CartState {
   CartSucessState({required this.cartItems});
 }
 
-final class CartItemRemovedState extends CartActionState {}
+final class CartItemRemovedState extends CartActionState {
+  final String productName;
+
+  CartItemRemovedState({required this.productName});
+}
 
 final class CartEmptyState extends CartState {}
+
+final class CartItemWishlistedState extends CartActionState{
+  final String wishlistedItemName;
+
+  CartItemWishlistedState({required this.wishlistedItemName});
+}

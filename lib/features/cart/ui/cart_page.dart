@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_bloc_tutorial/features/cart/bloc/cart_bloc.dart';
 import 'package:flutter_bloc_tutorial/features/cart/ui/cart_page_product_details_tile.dart';
+import 'package:flutter_bloc_tutorial/features/cart/ui/loaded_cart_page.dart';
 import 'package:flutter_bloc_tutorial/features/home/ui/home_page.dart';
 
 class CartPage extends StatefulWidget {
@@ -33,7 +34,14 @@ class _CartPageState extends State<CartPage> {
           if (state is CartItemRemovedState) {
             ScaffoldMessenger.of(context).showSnackBar(
               SnackBar(
-                content: Text("The item is removed from the cart."),
+                content: Text("${state.productName} is removed from the cart."),
+              ),
+            );
+          }
+          else if (state is CartItemWishlistedState) {
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(
+                content: Text("${state.wishlistedItemName} is wishlisted."),
               ),
             );
           }
@@ -49,14 +57,7 @@ class _CartPageState extends State<CartPage> {
 
             case CartSucessState:
               final cartSucessState = state as CartSucessState;
-              return ListView.builder(
-                itemCount: cartSucessState.cartItems.length,
-                itemBuilder: (context, index) {
-                  return CartPageProductDetailsTile(
-                      cartBloc: cartBloc,
-                      productsDataModel: cartSucessState.cartItems[index]);
-                },
-              );
+              return LoadedCartPage(cartSucessState: cartSucessState, cartBloc: cartBloc);
 
             case CartEmptyState:
               return Scaffold(
@@ -66,11 +67,10 @@ class _CartPageState extends State<CartPage> {
                     children: [
                       Text(
                         "The cart is empty.",
-                        style: TextStyle(fontSize: 18),
                       ),
                       TextButton(
                         onPressed: () {
-                          Navigator.push(
+                          Navigator.pushReplacement(
                             context,
                             MaterialPageRoute(
                               builder: (context) => HomePage(),
@@ -80,7 +80,7 @@ class _CartPageState extends State<CartPage> {
                         child: Text(
                           "Click here to add items.",
                           style: TextStyle(
-                            color: const Color.fromARGB(255, 6, 105, 185),
+                            color: Colors.blue,
                           ),
                         ),
                       )

@@ -1,15 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
-import 'package:flutter_bloc_tutorial/features/cart/bloc/cart_bloc.dart';
 import 'package:flutter_bloc_tutorial/features/home/models/home_products_data_model.dart';
+import 'package:flutter_bloc_tutorial/features/wishlist/bloc/wishlist_bloc.dart';
 
-class CartPageProductDetailsTile extends StatelessWidget {
-  final CartBloc cartBloc;
-  final ProductsDataModel productsDataModel;
-  const CartPageProductDetailsTile({
+class WishlistPageContentTile extends StatelessWidget {
+  final WishlistBloc wishlistBloc;
+  final ProductsDataModel product;
+  const WishlistPageContentTile({
     super.key,
-    required this.productsDataModel,
-    required this.cartBloc,
+    required this.product,
+    required this.wishlistBloc,
   });
 
   @override
@@ -32,7 +31,7 @@ class CartPageProductDetailsTile extends StatelessWidget {
                 image: DecorationImage(
                   fit: BoxFit.cover,
                   image: NetworkImage(
-                    productsDataModel.imageUrl,
+                    product.imageUrl,
                   ),
                 ),
                 borderRadius: BorderRadius.circular(20)),
@@ -41,14 +40,14 @@ class CartPageProductDetailsTile extends StatelessWidget {
             height: 10,
           ),
           Text(
-            productsDataModel.name,
+            product.name,
             style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
           ),
           SizedBox(
             height: 5,
           ),
           Text(
-            "Category : ${productsDataModel.category}",
+            "Category : ${product.category}",
             style: TextStyle(fontSize: 15, fontWeight: FontWeight.w400),
           ),
           SizedBox(
@@ -58,21 +57,19 @@ class CartPageProductDetailsTile extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(
-                "Price : \$${productsDataModel.price}",
+                "Price : \$${product.price}",
                 style: TextStyle(fontSize: 15, fontWeight: FontWeight.w400),
               ),
               Row(
                 children: [
                   IconButton(
-                      onPressed: () {
-                        cartBloc.add(CartItemWishlistedEvent(wishlistedItem: productsDataModel));
-                      },
+                      onPressed: () {},
                       icon: Icon(
-                        Icons.favorite_outline,
+                        Icons.shopping_cart_outlined,
                       )),
                   IconButton(
                       onPressed: () {
-                        cartBloc.add(CartRemoveItemEvent(cartItemToBeDeleted: productsDataModel));
+                        wishlistBloc.add(WishlistItemRemovedEvent(removedItem: product));
                       },
                       icon: Icon(
                         Icons.delete_outline,

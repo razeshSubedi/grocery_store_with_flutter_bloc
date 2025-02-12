@@ -1,5 +1,6 @@
 import 'package:bloc/bloc.dart';
 import 'package:flutter_bloc_tutorial/data/cart_items.dart';
+import 'package:flutter_bloc_tutorial/data/wishlist_items.dart';
 import 'package:flutter_bloc_tutorial/features/home/models/home_products_data_model.dart';
 import 'package:meta/meta.dart';
 
@@ -22,12 +23,17 @@ class CartBloc extends Bloc<CartEvent, CartState> {
     on<CartRemoveItemEvent>(
       (event, emit) {
         cartItems.remove(event.cartItemToBeDeleted);
-        emit(CartItemRemovedState());
+        emit(CartItemRemovedState(productName: event.cartItemToBeDeleted.name));
         emit(CartSucessState(cartItems: cartItems));
         if (cartItems.isEmpty) {
           emit(CartEmptyState());
         }
       },
     );
+  on<CartItemWishlistedEvent>((event, emit) {
+    wishlistItems.add(event.wishlistedItem);
+    emit(CartItemWishlistedState(wishlistedItemName: event.wishlistedItem.name));
+  },);
+    
   }
 }

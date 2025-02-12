@@ -39,11 +39,14 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
     });
 
     on<WishlistButtonClicked>((event, emit) {
+      print(wishlistItems.length);
       wishlistItems.add(event.clickedWishlistItem);
+      print(wishlistItems.length);
       emit(ProductAddedToWishlistState(message: "Product is wishlisted. "));
     },);
 
     on<CartButtonClicked>((event, emit) {
+
      cartItems.add(event.clickedCartItem);
      emit(ProductAddedToCartState(message: "Product is added to the cart."));
     },);
