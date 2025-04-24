@@ -29,7 +29,16 @@ class LoadedCartPage extends StatelessWidget {
           SizedBox(
             height: 10,
           ),
-          Container()
+          Container(
+            margin: EdgeInsets.all(8),
+            padding: EdgeInsets.all(10),
+            child: Row(
+              children: [
+                Text("Total Price: "),
+              ],
+            ),
+          ),
+        
         ],
       ),
     );
